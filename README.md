@@ -17,4 +17,4 @@ resources
 The elm code
 ------------
 
--   [link to file](web/elm/Chit.elm::type%20alias%20Model%20=)
+-   [](web/elm/Chit.elm::type%20alias%20Model%20=)
