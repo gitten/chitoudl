@@ -1,20 +1,20 @@
-# Chitoudl
+Chitoudl
+========
 
-To start your Phoenix app:
+resources
+---------
 
-  * Install dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install Node.js dependencies with `npm install`
-  * Start Phoenix endpoint with `mix phoenix.server`
+### Elixir/Phoenix
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+#### 
 
-Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
+### Elm
 
-## Learn more
+### Functional Programming
 
-  * Official website: http://www.phoenixframework.org/
-  * Guides: http://phoenixframework.org/docs/overview
-  * Docs: http://hexdocs.pm/phoenix
-  * Mailing list: http://groups.google.com/group/phoenix-talk
-  * Source: https://github.com/phoenixframework/phoenix
+#### 
+
+The elm code
+------------
+
+-   [link to file](web/elm/Chit.elm::type%20alias%20Model%20=)

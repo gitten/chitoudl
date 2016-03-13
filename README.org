@@ -1,0 +1,21 @@
+
+#+title: Chitoudl
+
+
+* Chitoudl
+
+** resources
+
+*** Elixir/Phoenix
+
+**** 
+
+*** Elm
+
+*** Functional Programming
+
+**** 
+
+** The elm code
+   - [[file:web/elm/Chit.elm::type%20alias%20Model%20=][link to file]]
+
