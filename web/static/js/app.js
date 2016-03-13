@@ -22,7 +22,7 @@ import socket from "./socket"
 
 var elmDiv = document.getElementById('elm-main')
 
-, elmApp = Elm.embed(Elm.Chit, elmDiv, { inchits : { user : "system", body : "sometings"} } );
+, elmApp = Elm.embed(Elm.Chit, elmDiv, {inChits : { roomname : "", user : "system", msg : "sometings"} } );
 
 let channel = socket.channel("chits:general", {})
 channel.join()
@@ -30,7 +30,7 @@ channel.join()
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 
-elmApp.ports.outgoingChit.subscribe(pushChit);
+elmApp.ports.outChit.subscribe(pushChit);
 
 function pushChit(chit) {
     console.log('out chitters: ', {chits: chit})
@@ -43,5 +43,5 @@ function pushChit(chit) {
 
 channel.on("from:elm", data =>{
     console.log('in chitters', data)
-    elmApp.ports.inchits.send(data)
+    elmApp.ports.inChits.send(data)
 })
