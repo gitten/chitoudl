@@ -1,6 +1,7 @@
 defmodule Chitoudl.ChitChannel do
   use Chitoudl.Web, :channel
 
+  
   def join("chits:general", payload, socket) do
     if authorized?(payload) do
       send self(), :after_join
@@ -20,6 +21,13 @@ defmodule Chitoudl.ChitChannel do
   # broadcast to everyone in the current topic (chits:lobby).
   def handle_in("from:elm", payload, socket) do
     broadcast socket, "from:elm", payload
+
+    #impliment with protocol instead?
+    data = for {key, value} <- payload, into: %{}, do: {String.to_atom( key), value}
+    
+
+    Repo.insert! struct( Chitoudl.Chit, data )
+    
     {:noreply, socket}
   end
 

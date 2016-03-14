@@ -28,13 +28,14 @@ end
 
 defimpl Poison.Encoder, for: Chitoudl.Chit do
   def encode(model, opts) do
-    %{ 
-      id: model.id,
-      roomName: model.roomName,
-      user: model.user,
-      msg: model.msg
-      
+
+    %{ id: model.id,
+       roomName: model.roomName,
+       user: model.user,
+       msg: model.msg
      }
+    
     |> Poison.Encoder.encode(opts)
   end
 end
+

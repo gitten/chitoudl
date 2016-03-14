@@ -49,11 +49,12 @@ var testData = [{roomName : "some string"}];
 channel.on("from:elm", data =>{
     console.log('in chitters', data)
     elmApp.ports.inChits.send(data)
-    console.log('test data', testData)
-    elmApp.ports.dataIn.send(testData)
+
 })
 
 dataChan.on("pull:history", data =>{
     console.log('got history', data.history)
     elmApp.ports.dataIn.send(data.history)
 })
+
+
