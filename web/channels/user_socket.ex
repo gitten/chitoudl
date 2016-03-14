@@ -4,7 +4,8 @@ defmodule Chitoudl.UserSocket do
   ## Channels
   # channel "rooms:*", Chitoudl.RoomChannel
   channel "chits:general", Chitoudl.ChitChannel
-
+  channel "datas:history", Chitoudl.DataChannel
+  
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket
   # transport :longpoll, Phoenix.Transports.LongPoll

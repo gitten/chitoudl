@@ -21,12 +21,17 @@ import "phoenix_html"
 import socket from "./socket"
 
 var elmDiv = document.getElementById('elm-main')
-
-, elmApp = Elm.embed(Elm.Chit, elmDiv, {inChits : { roomname : "", user : "system", msg : "sometings"} } );
+, inchits = {inChits : { roomName : "", user : "", msg : ""}, dataIn : [{ roomName : "general", user : "system", msg : "sometings"}] }
+, elmApp = Elm.embed(Elm.Chit, elmDiv, inchits);
 
 let channel = socket.channel("chits:general", {})
 channel.join()
-  .receive("ok", resp => { console.log("Joined successfully", resp) })
+  .receive("ok", resp => { console.log("Joined to chits successfully", resp) })
+  .receive("error", resp => { console.log("Unable to join", resp) })
+
+let dataChan = socket.channel("datas:history")
+dataChan.join()
+  .receive("ok", resp => { console.log("Joined to Data Channel successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
 
 
@@ -40,8 +45,15 @@ function pushChit(chit) {
     scrollTo(0, document.body.scrollHeight)
     
 }
-
+var testData = [{roomName : "some string"}];
 channel.on("from:elm", data =>{
     console.log('in chitters', data)
     elmApp.ports.inChits.send(data)
+    console.log('test data', testData)
+    elmApp.ports.dataIn.send(testData)
+})
+
+dataChan.on("pull:history", data =>{
+    console.log('got history', data.history)
+    elmApp.ports.dataIn.send(data.history)
 })

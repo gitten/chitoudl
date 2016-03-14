@@ -27,9 +27,9 @@ type alias Model =
   , chit2send : String
   }
 
-
+                 
 type alias Chit =
-  { roomname : String
+  { roomName : String
   , user : String
   , msg : String
   }
@@ -46,6 +46,7 @@ type Action
   | UpdateName String
   | ReceiveChit Chit
   | ChitSent
+  | ReceiveData (List Chit)
 
 
 update : Action -> Model -> (Model, Effects Action)
@@ -69,7 +70,8 @@ update action model =
     ReceiveChit chit ->
       ({ model | chitData = chit :: model.chitData },  Effects.none)
 
-
+    ReceiveData chits ->
+      ({ model | chitData = chits ++ model.chitData}, Effects.none)
 
 
 ----EFFECTS
@@ -83,7 +85,7 @@ sendChitFx { currentRoom, userName, chit2send} =
 
 format2chit : String -> String -> String -> Chit       
 format2chit room userName msg =
-  { roomname = room, user = userName, msg = msg }
+  { roomName = room, user = userName, msg = msg }
 
 
 
@@ -126,8 +128,8 @@ viewChits model =
     
 
 isRoom : String -> Chit -> Bool
-isRoom currentRoom {roomname} =
-  if roomname == currentRoom then True else False
+isRoom currentRoom {roomName} =
+  if roomName == currentRoom then True else False
         
 
 viewChiterer : Address Action -> Model -> Html      
@@ -172,7 +174,7 @@ app =
             { init = init
             , view = view
             , update = update
-            , inputs = [ incomingChit ]
+            , inputs = [ incomingChit, incomingData ]
             }
 
 
@@ -186,7 +188,13 @@ port inChits : Signal Chit
 incomingChit : Signal Action
 incomingChit =
   Signal.map ReceiveChit inChits
-    
+
+port dataIn : Signal (List Chit)
+
+incomingData : Signal Action
+incomingData =
+  Signal.map ReceiveData dataIn
+            
 
 port outChit : Signal Chit
 port outChit =
@@ -223,7 +231,7 @@ initChitData =
 
 initChit : String -> Chit
 initChit room =
-  { roomname = room
+  { roomName = room
   , user = "chitBot"
   , msg = " you're base R belonging to I"
   }
@@ -234,12 +242,12 @@ initChit room =
 --------test data
 
 genChit =
-  {roomname = "general", user = "Kyle", msg = " I R lisp"}
+  {roomName = "general", user = "Kyle", msg = " I R lisp"}
 
 
 moreChit =
-  [ {roomname = "ninja", user = "a wild ninja", msg = " I R Ninjer"}
-  , {roomname = "pirate", user = "a wild pirate", msg = " I Arrrrrg"}
-  , {roomname = "unicorn", user = "a wild unicorn", msg = " I R Neeey?"}
-  , {roomname = "rainbow", user = "skittles", msg = " I R taste"}
+  [ {roomName = "ninja", user = "a wild ninja", msg = " I R Ninjer"}
+  , {roomName = "pirate", user = "a wild pirate", msg = " I Arrrrrg"}
+  , {roomName = "unicorn", user = "a wild unicorn", msg = " I R Neeey?"}
+  , {roomName = "rainbow", user = "skittles", msg = " I R taste"}
   ]

@@ -1,12 +1,12 @@
-defmodule Chitoudl.ChitChannelTest do
+defmodule Chitoudl.DataChannelTest do
   use Chitoudl.ChannelCase
 
-  alias Chitoudl.ChitChannel
+  alias Chitoudl.DataChannel
 
   setup do
     {:ok, _, socket} =
       socket("user_id", %{some: :assign})
-      |> subscribe_and_join(ChitChannel, "chits:general")
+      |> subscribe_and_join(DataChannel, "datas:history")
 
     {:ok, socket: socket}
   end
@@ -16,9 +16,9 @@ defmodule Chitoudl.ChitChannelTest do
     assert_reply ref, :ok, %{"hello" => "there"}
   end
 
-  test "shout broadcasts to chits:general", %{socket: socket} do
-    push socket, "from:elm", %{"hello" => "all"}
-    assert_broadcast "from:elm", %{"hello" => "all"}
+  test "shout broadcasts to datas:lobby", %{socket: socket} do
+    push socket, "shout", %{"hello" => "all"}
+    assert_broadcast "shout", %{"hello" => "all"}
   end
 
   test "broadcasts are pushed to the client", %{socket: socket} do

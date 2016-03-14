@@ -9,3 +9,7 @@
 #
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
+
+
+Chitoudl.Repo.insert!(%Chitoudl.Chit{roomName: "general", user: "yur data", msg: "is mine now"})
+Chitoudl.Repo.insert!(%Chitoudl.Chit{roomName: "general", user: "rube", msg: "whaaaat?"})
