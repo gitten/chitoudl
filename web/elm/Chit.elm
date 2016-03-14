@@ -214,7 +214,7 @@ init =
   let model =
     { userName = "yurnaim"
     , chitRooms = initRooms
-    , chitData = genChit :: moreChit ++ initChitData
+    , chitData = genChit :: initChitData
     , currentRoom = "general"
     , chit2send = ""
     }
@@ -242,10 +242,6 @@ initChit room =
 --------test data
 
 genChit =
-  {roomName = "general", user = "Kyle", msg = " I R lisp"}
-
-
-moreChit =
   [ {roomName = "ninja", user = "a wild ninja", msg = " I R Ninjer"}
   , {roomName = "pirate", user = "a wild pirate", msg = " I Arrrrrg"}
   , {roomName = "unicorn", user = "a wild unicorn", msg = " I R Neeey?"}
