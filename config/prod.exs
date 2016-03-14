@@ -19,7 +19,7 @@ config :chitoudl, Chitoudl.Endpoint,
   secret_key_base: System.get_env("SECRET_KEY_BASE")
 
 # Configure your database
-config :hello_phoenix, HelloPhoenix.Repo,
+config :Chitoudl, Chitoudl.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: System.get_env("DATABASE_URL"),
   pool_size: 20
