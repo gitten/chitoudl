@@ -242,11 +242,7 @@ init =
   let model =
     { userName = "yurnaim"
     , chitRooms = initRooms
-<<<<<<< HEAD
-    , chitData = genChit :: moreChit ++ initChitData
-=======
     , chitData = genChit ++ initChitData
->>>>>>> a1bc071... added onEnter event for sending a chit
     , currentRoom = "general"
     , chit2send = ""
     }
