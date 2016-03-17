@@ -242,7 +242,7 @@ init =
   let model =
     { userName = "yurnaim"
     , chitRooms = initRooms
-    , chitData = genChit ++ initChitData
+    , chitData = genChit :: initChitData
     , currentRoom = "general"
     , chit2send = ""
     }
