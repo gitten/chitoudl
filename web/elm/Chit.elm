@@ -5,14 +5,12 @@ import String exposing (join)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Json.Decode as Json
 import Signal exposing (Address, Mailbox, mailbox)
 
 import StartApp
 import Effects exposing (Effects, Never)
 import Task exposing (Task)
-
-import Debug
-
 
 
 
@@ -35,8 +33,6 @@ type alias Chit =
   }
     
 
-
-
 ----UPDATE
 
 type Action
@@ -53,25 +49,43 @@ update : Action -> Model -> (Model, Effects Action)
 update action model =
   case action of
     Chitting message ->
-      ({ model | chit2send = message }, Effects.none)
+      ({ model |
+           chit2send = message }
+      , Effects.none
+      )
                                 
     ChangeRoom room ->
-      ({ model | currentRoom = room }, Effects.none)
+      ({ model |
+           currentRoom = room }
+      , Effects.none
+      )
 
     SendChit ->
       (model, sendChitFx model)
         
     UpdateName name ->
-      ({ model | userName = name }, Effects.none)
+      ({ model |
+           userName = name }
+      , Effects.none
+      )
 
     ChitSent ->
-      ({ model | chit2send = "" },  Effects.none)
+      ({ model |
+           chit2send = "" }
+      ,  Effects.none
+      )
 
     ReceiveChit chit ->
-      ({ model | chitData = chit :: model.chitData },  Effects.none)
+      ({ model |
+           chitData = chit :: model.chitData }
+      ,  Effects.none
+      )
 
     ReceiveData chits ->
-      ({ model | chitData = chits ++ model.chitData}, Effects.none)
+      ({ model |
+           chitData = chits ++ model.chitData}
+      , Effects.none
+      )
 
 
 ----EFFECTS
@@ -86,8 +100,6 @@ sendChitFx { currentRoom, userName, chit2send} =
 format2chit : String -> String -> String -> Chit       
 format2chit room userName msg =
   { roomName = room, user = userName, msg = msg }
-
-
 
 
 ----VIEW
@@ -147,7 +159,8 @@ viewChiterer address model =
         [ id "input-msg"
         , placeholder "the body here"
         , value model.chit2send
-        , on "input" targetValue (Signal.message address << Chitting)
+        , onInput address Chitting
+        , onEnter address SendChit
         ]
         []
 
@@ -155,8 +168,24 @@ viewChiterer address model =
     ]
 
 
+onInput : Address Action -> (String -> Action) -> Attribute
+onInput address action = on "input" targetValue (Signal.message address << action)   
+
+    
+onEnter : Address Action -> Action -> Attribute
+onEnter address action =
+  let
+    is13 code =
+        if code == 13 then Ok action
+        else Err "not 13 (enter)"
+  in
+    on "keydown"
+      (Json.customDecoder keyCode is13)
+      (\_ -> Signal.message address action)
+
+
 formatChit : Chit -> Html
-formatChit { user, msg} =
+formatChit { user, msg } =
   p
     []
     [ String.join "" [ "[ ", user, " ] : ", msg ] |> text ]
@@ -184,13 +213,12 @@ port tasks =
 
 
 port inChits : Signal Chit
-
 incomingChit : Signal Action
 incomingChit =
   Signal.map ReceiveChit inChits
 
-port dataIn : Signal (List Chit)
 
+port dataIn : Signal (List Chit)
 incomingData : Signal Action
 incomingData =
   Signal.map ReceiveData dataIn
@@ -214,7 +242,7 @@ init =
   let model =
     { userName = "yurnaim"
     , chitRooms = initRooms
-    , chitData = genChit :: initChitData
+    , chitData = genChit ++ initChitData
     , currentRoom = "general"
     , chit2send = ""
     }
