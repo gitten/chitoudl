@@ -3,11 +3,11 @@
 
 
 * Chitoudl
-
+  Chitoudl is my learning project to explore Elm lang and Phoenix
+  Framework.
+  
 ** resources
-
 *** Elixir/Phoenix
-
 **** 
 
 *** Elm
